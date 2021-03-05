@@ -1,0 +1,64 @@
+
+
+
+--------------------------------------------------------------------------------------------------
+             kotlin泛型 in  out关键字
+总结: in  相当于  Java中的 ? super Type
+         out 相当于Java中的 ? extend Type
+	可以采用生产者,消费者的方式描述
+
+open class Animal
+class Dog : Animal()
+
+interface Box<T> {
+    fun getAnimal(): T
+    fun putAnimal(a: T)
+}
+
+
+fun getAnimalFromBox(b: Box<out Animal>) {
+    val animal: Animal = b.getAnimal()//这里取出来必然可以用Animal类型来接收
+//    b.putAnimal(Nothing)//无法调用,因为in 相当于Java中的 ? extend Type,容器里面放的是Animal的子类型,
+}
+
+
+fun getAnimalFromBox2(b: Box<in Animal>) {
+//    val animal: Animal = b.getAnimal()//无法调用,因为in 相当于Java中的 ? super Type,可以传入Animal的父类型
+    b.putAnimal(Animal())//所以肯定可以传入Animal,但是无法推断出取出的是什么类型,这就是所谓的消费者
+}
+
+
+---------------------------------------------------------------------------------------------------------------------
+        T extends Type  与   ?  extends Type 的区别
+T extends Type作为类型声明,通常用于类和方法的定义,
+? extends Type声明对象时候使用,生产者,消费者肯定是基于对象的,? 作为通配符使用
+
+代码如下:
+T extends Type的使用场景,定义类方法的时候使用
+//泛型类
+class Demo1<T extends ClassDemo>{
+	......
+}
+//泛型方法
+public <T extends ClassDemo> void set(T x) {
+	......
+}
+? extends Type的使用场景,声明对象时候使用
+ArrayList<? extends Number> str ;
+public  void set(List<? extends Number> list) {//
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
