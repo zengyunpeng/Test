@@ -1,19 +1,33 @@
 package com.intellif.test
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.intellif.test.databinding.ActivityMainBinding
 import okhttp3.*
 import java.io.IOException
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    lateinit var mBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
         val linkedList = LinkedList<Int>()
         linkedList.last
         linkedList.first
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var handler = Handler()
+        val tv = findViewById<TextView>(R.id.tv)
+        tv.handler
+        Looper.getMainLooper()
     }
 
     val client = OkHttpClient.Builder()
