@@ -28,6 +28,10 @@ class MainActivity : AppCompatActivity() {
         val tv = findViewById<TextView>(R.id.tv)
         tv.handler
         Looper.getMainLooper()
+//        var linkedList = LinkedList<String>()
+//        linkedList.peek()
+
+
     }
 
     val client = OkHttpClient.Builder()

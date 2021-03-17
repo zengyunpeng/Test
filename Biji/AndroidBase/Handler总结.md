@@ -30,6 +30,47 @@ Looper.loop是个死循环,这个死循环可以确保程序不会因为代码�
 			}
 	}
 
+#### 方法调用流程
+
+ActivityThread.main():创建消息队列和轮询器
+
+```
+public static void main(String[] args) {
+        Looper.prepareMainLooper();//创建Looper和MessageQueue,mQueue是Looper的成员变量
+        ....
+        Looper.loop();//死循环调MessageQueue的next()方法
+}
+```
+
+MessageQueue.next()方法:取消息的方法
+
+```
+Message next() {
+    ....    
+     for (;;) {
+            //没有消息 进入休眠，等待被唤醒
+            nativePollOnce(ptr, nextPollTimeoutMillis);
+            //取出需要处理的消息
+            ....
+     }
+    
+    
+}
+
+```
+
+MessageQueue.enqueueMessage()
+```
+    boolean enqueueMessage(Message msg, long when) {
+        //以时间为序,把消息插入到消息链表中
+        //如果是阻塞状态,就唤醒对应nativePollOnce方法
+        if (needWake) {
+                nativeWake(mPtr);
+         }
+    }
+    
+```
+
 ThreadLocal源码笔记:
 
 使用:
