@@ -5,11 +5,15 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.bumptech.glide.Glide
 import com.intellif.test.databinding.ActivityMainBinding
 import okhttp3.*
 import java.io.IOException
 import java.util.*
 
+@Route(path = "/test/mainActivity")
 class MainActivity : AppCompatActivity() {
     lateinit var mBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +24,14 @@ class MainActivity : AppCompatActivity() {
         val linkedList = LinkedList<Int>()
         linkedList.last
         linkedList.first
+
+        ARouter.init(application)
+
+
+    }
+
+    fun interface sfsf{
+       fun a()
     }
 
     override fun onResume() {
@@ -31,6 +43,9 @@ class MainActivity : AppCompatActivity() {
 //        var linkedList = LinkedList<String>()
 //        linkedList.peek()
 
+        val into = Glide.with(this)
+            .load("")
+            .into(mBinding.img)
 
     }
 
