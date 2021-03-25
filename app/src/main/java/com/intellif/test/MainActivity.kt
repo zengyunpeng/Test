@@ -8,13 +8,32 @@ import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
+import com.intellif.test.dagger.A
+import com.intellif.test.dagger.B
+import com.intellif.test.dagger.DaggerMainComponent
+import com.intellif.test.dagger.MainComponent
 import com.intellif.test.databinding.ActivityMainBinding
 import okhttp3.*
 import java.io.IOException
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Named
+import kotlin.collections.LinkedHashMap
 
 @Route(path = "/test/mainActivity")
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var a: A
+
+    @Named("dev")
+    @Inject
+    lateinit var devB: B
+
+    @Named("proDuct")
+    @Inject
+    lateinit var productB: B
+
+
     lateinit var mBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         ARouter.init(application)
 
-
+        var linkedHashMap = LinkedHashMap<String, String>()
+        linkedHashMap.entries
+        DaggerMainComponent.builder().build().inject(this)
     }
 
-    fun interface sfsf{
-       fun a()
+    fun interface sfsf {
+        fun a()
     }
 
     override fun onResume() {

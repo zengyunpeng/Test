@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+//    id 'com.neenbedankt.android-annotationProcessor'
 }
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
@@ -40,6 +40,8 @@ android {
         viewBinding true
     }
 }
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
 
@@ -56,4 +58,18 @@ dependencies {
     implementation libs.glideAnnotationProcessor
     implementation 'com.alibaba:arouter-api:1.5.1'
     kapt 'com.alibaba:arouter-compiler:1.5.1'
+    //Dagger2相关依赖
+//    implementation 'com.google.dagger:dagger:2.4'
+//    annotationProcessor 'com.google.dagger:dagger-compiler:2.4' //java注解
+//    implementation 'org.glassfish:javax.annotation:10.0-b28'
+    //Dagger2相关依赖
+    implementation 'com.google.dagger:dagger-android:2.33'
+    implementation 'com.google.dagger:dagger-android-support:2.33' // if you use the support libraries
+    kapt  'com.google.dagger:dagger-android-processor:2.33'
+    kapt  'com.google.dagger:dagger-compiler:2.33'
+}
+
+
+kapt {
+    generateStubs = true
 }
