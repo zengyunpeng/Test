@@ -46,6 +46,11 @@ class MainActivity : AppCompatActivity() {
 
         ARouter.init(application)
 
+        ARouter.getInstance().build("")
+            .navigation()
+
+
+
         var linkedHashMap = LinkedHashMap<String, String>()
         linkedHashMap.entries
         DaggerMainComponent.builder().build().inject(this)
