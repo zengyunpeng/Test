@@ -50,8 +50,7 @@ class MainActivity : AppCompatActivity() {
             .navigation()
 
 
-
-        var linkedHashMap = LinkedHashMap<String, String>()
+        val linkedHashMap = LinkedHashMap<String, String>()
         linkedHashMap.entries
         DaggerMainComponent.builder().build().inject(this)
     }
@@ -79,7 +78,8 @@ class MainActivity : AppCompatActivity() {
         //            .addInterceptor()
         .build()
 
-    @Throws(IOException::class)
+//    @Throws(IOException::class)
+
     fun run(url: String): String? {
         val client = OkHttpClient.Builder()
 
