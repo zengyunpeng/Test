@@ -1,9 +1,14 @@
 package com.intellif.algorithm;
 
 import com.intellif.test.A;
+
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -179,110 +184,74 @@ public class Common_sorting_algorithm {
     }
 
     /**
-     * 代码简化
-     *
-     * @param a
-     * @param l
-     * @param r
-     */
-    public static void quickSort2(int a[], int l, int r) {
-        if (l >= r)
-            return;
-
-        int i = l;
-        int j = r;
-        int key = a[l];//选择第一个数为key
-
-        while (i < j) {
-
-            while (i < j && a[j] >= key)//从右向左找第一个小于key的值
-                j--;
-            if (i < j) {
-                a[i] = a[j];
-                i++;
-            }
-
-            while (i < j && a[i] < key)//从左向右找第一个大于key的值
-                i++;
-
-            if (i < j) {
-                a[j] = a[i];
-                j--;
-            }
-        }
-        //i == j
-        a[i] = key;
-        quickSort2(a, l, i - 1);//递归调用
-        quickSort2(a, i + 1, r);//递归调用
-    }
-
-    /**
      * 归并排序
      * 时间复杂度 O(N*logN)
      */
-    public static void merge_sort(int a[],int first,int last,int temp[]){
+    public static void merge_sort(int a[], int first, int last, int temp[]) {
 
-        if(first < last){
-            int middle = (first + last)/2;
-            merge_sort(a,first,middle,temp);//左半部分排好序
-            merge_sort(a,middle+1,last,temp);//右半部分排好序
-            mergeArray(a,first,middle,last,temp); //合并左右部分
+        if (first < last) {
+            int middle = (first + last) / 2;
+            merge_sort(a, first, middle, temp);//左半部分排好序
+            merge_sort(a, middle + 1, last, temp);//右半部分排好序
+            mergeArray(a, first, middle, last, temp); //合并左右部分
         }
     }
 
     //合并 ：将两个有序的序列a[first-middle],a[middle+1-end]合并
-    public static void mergeArray(int a[],int first,int middle,int end,int temp[]){
+    public static void mergeArray(int a[], int first, int middle, int end, int temp[]) {
         int i = first;
         int m = middle;
-        int j = middle+1;
+        int j = middle + 1;
         int n = end;
         int k = 0;
-        while(i<=m && j<=n){
-            if(a[i] <= a[j]){
+        while (i <= m && j <= n) {
+            if (a[i] <= a[j]) {
                 temp[k] = a[i];
                 k++;
                 i++;
-            }else{
+            } else {
                 temp[k] = a[j];
                 k++;
                 j++;
             }
         }
-        while(i<=m){
+        while (i <= m) {
             temp[k] = a[i];
             k++;
             i++;
         }
-        while(j<=n){
+        while (j <= n) {
             temp[k] = a[j];
             k++;
             j++;
         }
 
-        for(int ii=0;ii<k;ii++){
+        for (int ii = 0; ii < k; ii++) {
             a[first + ii] = temp[ii];
         }
     }
+
     //------------------------------------------------------------------------------------------
     //构建最小堆
-    public static void MakeMinHeap(int a[], int n){
-        for(int i=(n-1)/2 ; i>=0 ; i--){
-            MinHeapFixdown(a,i,n);
+    public static void MakeMinHeap(int a[], int n) {
+        for (int i = (n - 1) / 2; i >= 0; i--) {
+            MinHeapFixdown(a, i, n);
         }
     }
-    //从i节点开始调整,n为节点总数 从0开始计算 i节点的子节点为 2*i+1, 2*i+2
-    public static void MinHeapFixdown(int a[],int i,int n){
 
-        int j = 2*i+1; //子节点
+    //从i节点开始调整,n为节点总数 从0开始计算 i节点的子节点为 2*i+1, 2*i+2
+    public static void MinHeapFixdown(int a[], int i, int n) {
+
+        int j = 2 * i + 1; //子节点
         int temp = 0;
 
-        while(j<n){
+        while (j < n) {
             //在左右子节点中寻找最小的
-            if(j+1<n && a[j+1]<a[j]){
+            if (j + 1 < n && a[j + 1] < a[j]) {
                 j++;
             }
 
-            if(a[i] <= a[j])
+            if (a[i] <= a[j])
                 break;
 
             //较大节点下移
@@ -291,20 +260,65 @@ public class Common_sorting_algorithm {
             a[j] = temp;
 
             i = j;
-            j = 2*i+1;
+            j = 2 * i + 1;
         }
     }
 
-    public static void MinHeap_Sort(int a[],int n){
+    public static void MinHeap_Sort(int a[], int n) {
         int temp = 0;
-        MakeMinHeap(a,n);
+        MakeMinHeap(a, n);
 
-        for(int i=n-1;i>0;i--){
+        for (int i = n - 1; i > 0; i--) {
             temp = a[0];
             a[0] = a[i];
             a[i] = temp;
-            MinHeapFixdown(a,0,i);
+            MinHeapFixdown(a, 0, i);
         }
+    }
+
+    /**
+     * LinkedList按照访问顺序
+     */
+    @Test
+    public void testLinkedHashMap() {
+        Map<String,String> linkedHashMap = new LinkedHashMap<String,String>(0,1.6f,true); // 访问顺序;
+//		Map<String,String> linkedHashMap = new LinkedHashMap<String,String>(0,1.6f,false); // 插入顺序;
+
+        // 数据插入;
+        linkedHashMap.put("key_1", "value_11111");
+        linkedHashMap.put("key_2", "value_22222");
+        linkedHashMap.put("key_3", "value_33333");
+        linkedHashMap.put("key_4", "value_44444");
+        linkedHashMap.put("key_5", "value_55555");
+
+        /**
+         * 打印集合数据,看输出顺序是什么样子?
+         * 首先获取Map对象的Entry对象集;
+         * 然后遍历打印Entry对象;
+         * 注意:此时是程序开始的第一次数据打印;
+         */
+        Set<Map.Entry<String,String>> entrySet = linkedHashMap.entrySet();
+        for(Map.Entry<String,String> entry : entrySet){
+            System.out.println("key:"+entry.getKey()+";  Value: "+entry.getValue());
+        }
+
+        // 在这里做一条两次打印的分界线;
+        System.out.println("--------------------------------------------");
+
+        // 最终我们把集合返回;
+        linkedHashMap.get("key_3");
+
+        /**
+         * 然后以同样的方式遍历打印Entry对象;
+         * 注意:此时是程序开始的第二次数据打印;
+         */
+        Set<Map.Entry<String,String>> entrySet2 = linkedHashMap.entrySet();
+        for(Map.Entry<String,String> entry : entrySet2){
+            System.out.println("key:"+entry.getKey()+";  Value: "+entry.getValue());
+        }
+
+
+        ArrayBlockingQueue<String> arrayBlockingQueue=new ArrayBlockingQueue<String>(1);
     }
 
 

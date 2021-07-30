@@ -5,13 +5,13 @@ plugins {
 //    id 'com.neenbedankt.android-annotationProcessor'
 }
 android {
-    compileSdkVersion 30
+    compileSdkVersion 24
     buildToolsVersion "30.0.1"
 
     defaultConfig {
         applicationId "com.intellif.test"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         javaCompileOptions {
@@ -38,6 +38,10 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    packagingOptions {
+        exclude "META-INF/metadata.kotlin_module"
+        exclude 'META-INF/metadata.jvm.kotlin_module'
     }
 }
 sourceCompatibility = JavaVersion.VERSION_1_8
